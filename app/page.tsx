@@ -1,8 +1,8 @@
- "use client";
-import {useEffect,useState} from "react";
-import {useRouter} from "next/navigation";
-import {getSupabase} from "../lib/supabase";
-export default function Home(){const [projects,setProjects]=useState<any[]>([]);const [org,setOrg]=useState<any>();const router=useRouter();
- useEffect(()=>{const supabase=getSupabase(); (async()=>{const {data:u}=await supabase.auth.getUser();if(!u.user)return;const {data:m}=await supabase.from("organization_members").select("organization_id").eq("user_id",u.user.id).limit(1).single();if(m){setOrg(m.organization_id);const {data:p}=await supabase.from("projects").select("*").eq("organization_id",m.organization_id).order("updated_at",{ascending:false});setProjects(p||[])}})()},[]);
- async function create(){const supabase=getSupabase(); if(!org)return;const title=prompt("Project title","Israel and the New Covenant");if(!title)return;const {data}=await supabase.rpc("create_research_project",{p_org_id:org,p_title:title,p_question:""});if(data)router.push("/research/"+data)}
- return <main style={{maxWidth:1000,margin:"60px auto",padding:20,fontFamily:"system-ui"}}><h1>TheologyLab</h1><p>Research workspace for building defensible biblical arguments.</p><button onClick={create} style={{padding:10,background:"#191919",color:"#fff",borderRadius:7}}>+ New research project</button><div style={{display:"grid",gap:10,marginTop:25}}>{projects.map(p=><button key={p.id} onClick={()=>router.push("/research/"+p.id)} style={{textAlign:"left",padding:16,border:"1px solid #ddd",borderRadius:9,background:"#fff"}}><strong>{p.title}</strong><div>{p.research_question||"No research question yet."}</div></button>)}</div></main>}
+export default function Home() {
+  return (
+    <main style={{ padding: 40, fontFamily: "system-ui" }}>
+      <h1>TheologyLab</h1>
+      <p>Deployment test successful.</p>
+    </main>
+  );
+}
