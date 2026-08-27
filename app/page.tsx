@@ -7,6 +7,7 @@ export default function Home() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
+  const [signedIn, setSignedIn] = useState(false);
 
   async function signIn() {
     setMessage("Signing in...");
@@ -23,7 +24,48 @@ export default function Home() {
       return;
     }
 
-    setMessage("Signed in successfully!");
+    setMessage("");
+    setSignedIn(true);
+  }
+
+  if (signedIn) {
+    return (
+      <main
+        style={{
+          maxWidth: 1000,
+          margin: "50px auto",
+          padding: 30,
+          fontFamily: "system-ui",
+        }}
+      >
+        <h1>TheologyLab</h1>
+        <p>Research Workspace</p>
+
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr 1fr",
+            gap: 20,
+            marginTop: 30,
+          }}
+        >
+          <section style={{ border: "1px solid #ccc", padding: 20 }}>
+            <h2>Projects</h2>
+            <p>Your research projects will appear here.</p>
+          </section>
+
+          <section style={{ border: "1px solid #ccc", padding: 20 }}>
+            <h2>Sources</h2>
+            <p>Your uploaded books, papers, and documents will appear here.</p>
+          </section>
+
+          <section style={{ border: "1px solid #ccc", padding: 20 }}>
+            <h2>Research Assistant</h2>
+            <p>Your AI research tools will appear here.</p>
+          </section>
+        </div>
+      </main>
+    );
   }
 
   return (
