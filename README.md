@@ -30,3 +30,4 @@ than at module evaluation time. This prevents Next.js/Vercel prerendering from
 failing the `/` page when the client module is evaluated during the build.
 The required public environment variables are still required at runtime:
 `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY`.
+Deployment trigger
