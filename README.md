@@ -17,3 +17,8 @@ Vercel variables:
 
 Supabase Edge Function secret required for AI:
 - OPENAI_API_KEY
+
+
+Browser compatibility fix:
+- Source ingestion now uses a secured database RPC.
+- AI Edge Function calls are proxied through `/api/edge`, avoiding browser CORS/network issues.
