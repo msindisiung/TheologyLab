@@ -1,35 +1,82 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { getSupabase } from "../lib/supabase";
 
 export default function Home() {
-  const [status, setStatus] = useState("Checking Supabase connection...");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [message, setMessage] = useState("");
 
-  useEffect(() => {
-    try {
-      const supabase = getSupabase();
+  async function signIn() {
+    setMessage("Signing in...");
 
-      supabase.auth.getUser().then(({ error }) => {
-        if (error) {
-          setStatus("Supabase connected, but no user is signed in.");
-        } else {
-          setStatus("Supabase connection successful.");
-        }
-      });
-    } catch (error) {
-      setStatus(
-        error instanceof Error
-          ? `Supabase error: ${error.message}`
-          : "Unknown Supabase error."
-      );
+    const supabase = getSupabase();
+
+    const { error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+
+    if (error) {
+      setMessage("Sign in failed: " + error.message);
+      return;
     }
-  }, []);
+
+    setMessage("Signed in successfully!");
+  }
 
   return (
-    <main style={{ padding: 40, fontFamily: "system-ui" }}>
+    <main
+      style={{
+        maxWidth: 500,
+        margin: "80px auto",
+        padding: 30,
+        fontFamily: "system-ui",
+      }}
+    >
       <h1>TheologyLab</h1>
-      <p>{status}</p>
+      <p>Sign in to your research workspace</p>
+
+      <input
+        type="email"
+        placeholder="Email address"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        style={{
+          width: "100%",
+          padding: 12,
+          marginTop: 20,
+          boxSizing: "border-box",
+        }}
+      />
+
+      <input
+        type="password"
+        placeholder="Password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        style={{
+          width: "100%",
+          padding: 12,
+          marginTop: 12,
+          boxSizing: "border-box",
+        }}
+      />
+
+      <button
+        onClick={signIn}
+        style={{
+          width: "100%",
+          padding: 12,
+          marginTop: 16,
+          cursor: "pointer",
+        }}
+      >
+        Sign in
+      </button>
+
+      {message && <p style={{ marginTop: 20 }}>{message}</p>}
     </main>
   );
 }
